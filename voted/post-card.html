@@ -1,0 +1,87 @@
+<link rel="import" href="../components/polymer/polymer.html">
+<link rel="import" href="../components/core-icon-button/core-icon-button.html">
+<link rel="import" href="../components/paper-button/paper-button.html">
+
+<polymer-element name="post-card">
+  <template>
+    <style>
+    :host {
+      display: block;
+      position: relative;
+      background-color: white;
+      padding: 20px;
+      width: 100%;
+      font-size: 1.2rem;
+      font-weight: 300;
+    }
+    .card-header {
+      margin-bottom: 10px;
+    }
+    polyfill-next-selector { content: '.card-header h2'; }
+    .card-header ::content h2 {
+      margin: 0;
+      font-size: 1.8rem;
+      font-weight: 300;
+    }
+    polyfill-next-selector { content: '.card-header img'; }
+    .card-header ::content img {
+      width: 70px;
+      border-radius: 50%;
+      margin: 10px;
+    }
+    core-icon-button {
+      position: absolute;
+      top: 33px;
+      right: 203px;
+      color: #636363;
+    }
+    :host([favorite]) core-icon-button {
+      color: #da4336;
+    }
+    </style>
+
+    <div class="card-header" layout horizontal center>
+
+      <content select="img"></content>
+      <content select="h2"></content>
+
+    </div>
+
+
+
+    <core-icon-button
+      id="vote"
+      icon="favorite"
+      on-tap="{{voteTapped}}">
+    </core-icon-button>
+
+
+
+
+    <content></content>
+  </template>
+  <script>
+  Polymer({
+    publish: {
+      favorite: {
+        value: false,
+        reflect: true
+      },
+      vote: {
+        value: 0,
+        reflect: true
+      }
+    },
+    favoriteTapped: function(event, detail, sender) {
+      this.favorite = !this.favorite;
+      this.fire('favorite-tap');
+    },
+    voteTapped: function(event, detail, sender) {
+      //this.favorite = !this.favorite;
+      //this.fire('favorite-tap');
+      this.vote = this.vote + 1;
+      this.fire('vote-tap');
+    }
+  });
+  </script>
+</polymer-element>
